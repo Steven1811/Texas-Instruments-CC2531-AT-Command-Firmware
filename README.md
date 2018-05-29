@@ -1,10 +1,60 @@
-# zigPAN
+# CC2531 Serial->USB AT-Command Terminal with 6LoWPAN Connectivity
 
-WPAN implementation for TI CC2531 ZigBee Module USB
+## Goal of this project
+
+The goal is to implement an AT-Command-set styled (See [Hayes command set](https://en.wikipedia.org/wiki/Hayes_command_set)) Firmware on the Texas Instruments [CC2531 USB Evaluation Module Kit](http://www.ti.com/tool/cc2531emk). The built-in USB interface should be recognized as an USB<-> Serial Converter Chip and AT-Commands can then be send via an serial terminal connection. The CC2531 should act as a Node in an 6LoWPAN Network connected to different Nodes and to an EDGE-Router to the Internet like shown below.
+
+![6LoWPAN Network](http://processors.wiki.ti.com/images/8/8c/20979_6LowPan_mesh.jpg)
+
+## Prerequisites
+
+You need the following Soft- and Hardware in order to use this project.
+
+###### Software
+
+- [VirtualBox](https://www.virtualbox.org) - An x86/ AMD64 Virtualization Software
+- The [Instant Contiki OS Image Version 2.7](https://sourceforge.net/projects/contiki/files/Instant%20Contiki/Instant%20Contiki%202.7/InstantContiki2.7.zip/download) - Used as development base for this project
+- [Texas Instruments SmartRF-Flash Programmer](http://www.ti.com/tool/flash-programmer) (**Requires Registration**) - Software used to flash firmware onto the CC2531 chip
+
+###### Hardware
+
+- [Texas Instruments CC2531 USB Evaluation Module Kit](http://www.ti.com/tool/cc2531emk) - The USB Evaluation Kit
+
+- [CC-Debugger](http://www.ti.com/tool/CC-DEBUGGER) - Programmer and Debugger Hardware
+
+## Building Process
+
+[Contiki OS 2.7](http://contiki-os.org) is being used as an embedded operating System running on the CC2531 System-on-Chip. In order to build this project you need to:
+
+1. Download the [Instant Contiki OS Image Version 2.7](https://sourceforge.net/projects/contiki/files/Instant%20Contiki/Instant%20Contiki%202.7/InstantContiki2.7.zip/download)
+2. Unpack the Files
+3. Mount the Disk Image in VirtualBox or VMWare Player and setup an shared folder for sharing files between Host and Guest Machine
+4. Start the Virtual Machine
+5. Log-In with with the password user
+
+*You can also Reefer to [here](http://contiki-os.org/start.html) for these steps*
+
+6. Open up a Terminal and enter 
+
+   ```bash
+   git clone https://github.com/BlkPingu/zigPAN
+   cd ./zigPAN/src
+   make
+   ```
+
+   
+
+   After finishing the  `make` command you should have an .hex file in the ./src folder that you can move to your shared folder and then flash onto the CC2531 Chip.
+
+   
+
+## Flashing the .hex file on the CC2531
+
+**[TODO]**
 
 
 
-## Getting Started
+## First attempt by using the Sensinode SDCC Banked Tool-Chain and [Free-RTOS](https://www.freertos.org)
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
@@ -120,49 +170,10 @@ until finished
 
 End with an example of getting some data out of the system or using it for a little demo
 
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
-## Built With
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
-
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+* **Tobias Kolb**
+* **Steven Bradley**
 
 ## License
 
