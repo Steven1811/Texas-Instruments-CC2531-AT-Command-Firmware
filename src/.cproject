@@ -65,13 +65,13 @@
                                 								
                                 <option id="org.eclipse.cdt.build.core.settings.holder.incpaths.2115466619" name="Include Paths" superClass="org.eclipse.cdt.build.core.settings.holder.incpaths" valueType="includePath">
                                     									
-                                    <listOptionValue builtIn="false" value="&quot;${CONTIKI_PATH}/core&quot;"/>
+                                    <listOptionValue builtIn="false" value="&quot;${env_var:CONTIKI_PATH}/core&quot;"/>
                                     									
-                                    <listOptionValue builtIn="false" value="&quot;${SDCC_PATH}/include&quot;"/>
+                                    <listOptionValue builtIn="false" value="&quot;${env_var:SDCC_PATH}/include&quot;"/>
                                     									
-                                    <listOptionValue builtIn="false" value="&quot;${CONTIKI_PATH}/platform/cc2530dk&quot;"/>
+                                    <listOptionValue builtIn="false" value="&quot;${env_var:CONTIKI_PATH}/cpu/cc253x&quot;"/>
                                     									
-                                    <listOptionValue builtIn="false" value="&quot;${CONTIKI_PATH}/cpu/cc253x&quot;"/>
+                                    <listOptionValue builtIn="false" value="&quot;${env_var:CONTIKI_PATH}/platform/cc2530dk&quot;"/>
                                     								
                                 </option>
                                 								

@@ -34,14 +34,14 @@ You need the following Soft- and Hardware in order to use this project.
 
 *You can also Reefer to [here](http://contiki-os.org/start.html) for these steps*
 
-6. Open ~/.profile (**for Debian based Distros**) and add these two lines at the end and replace 
+6. Execute `sudo nano /etc/environment` in an Terminal and add these two lines at the end and replace 
 
-   - `<ABSOLUTE_CONTIKI_PATH>` with the absolute path where the contiki folder is located, **without / slash at the end.** Example: `CONTIKI_PATH="~/contiki"; export CONTIKI_PATH;`
-   - `<ABSOLUTE_SDCC_PATH>` with the absolute path where the sdcc folder is located, **without / slash at the end.** Example: `SDCC_PATH="/usr/local/share/sddc"; export SDCC_PATH;`
+   - `<ABSOLUTE_CONTIKI_PATH>` with the absolute path where the contiki folder is located, **without / slash at the end.** Example: `CONTIKI_PATH="/home/user/contiki"`
+   - `<ABSOLUTE_SDCC_PATH>` with the absolute path where the sdcc folder is located, **without / slash at the end.** Example: `SDCC_PATH="/usr/local/share/sdcc"`
 
    ```bash
-   CONTIKI_PATH="<ABSOLUTE_CONTIKI_PATH>"; export CONTIKI_PATH;
-   SDCC_PATH="<ABSOLUTE_SDCC_PATH>"; export SDCC_PATH;
+   CONTIKI_PATH="<ABSOLUTE_CONTIKI_PATH>"
+   SDCC_PATH="<ABSOLUTE_SDCC_PATH>"
    ```
 
 7. Logoff and Login again
