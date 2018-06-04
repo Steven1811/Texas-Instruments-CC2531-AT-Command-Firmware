@@ -15,6 +15,4 @@
 3. [Contiki Documentation](http://contiki.sourceforge.net/docs/2.6/index.html)
 4. [Registerdefinitions for CC253x used on Contiki](http://contiki.sourceforge.net/docs/2.6/a00693_source.html)
 5. [CC253x User's Guide](http://www.ti.com/lit/ug/swru191f/swru191f.pdf)
-
-#### Location src folder:
-{contiki-folder}/examples/cc2530dk/src
+6. [How to build the 8051 SDCC Toolchain manually](https://github.com/contiki-os/contiki/wiki/8051-Requirements)

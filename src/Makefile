@@ -1,9 +1,9 @@
-CONTIKI_PROJECT = cc2531-usb-demo
+CONTIKI_PROJECT = cc2531-6lowpan-at-terminal
 
 DEFINES+=MODELS_CONF_CC2531_USB_STICK=1
 
 all: $(CONTIKI_PROJECT)
 
-CONTIKI = ../../..
+CONTIKI =${CONTIKI_PATH}
 CONTIKI_WITH_RIME = 1
 include $(CONTIKI)/Makefile.include

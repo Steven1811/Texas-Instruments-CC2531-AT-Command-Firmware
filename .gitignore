@@ -51,4 +51,12 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
+#Custom directories
 .vs/
+**/.settings/
+**/obj_cc2530dk/
+
+#Custom files
+*.cc2530dk
+*.lk
+*.mem

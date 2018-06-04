@@ -34,7 +34,19 @@ You need the following Soft- and Hardware in order to use this project.
 
 *You can also Reefer to [here](http://contiki-os.org/start.html) for these steps*
 
-6. Open up a Terminal and enter 
+6. Open ~/.profile (**for Debian based Distros**) and add these two lines at the end and replace 
+
+   - `<ABSOLUTE_CONTIKI_PATH>` with the absolute path where the contiki folder is located, **without / slash at the end.** Example: `CONTIKI_PATH="~/contiki"; export CONTIKI_PATH;`
+   - `<ABSOLUTE_SDCC_PATH>` with the absolute path where the sdcc folder is located, **without / slash at the end.** Example: `SDCC_PATH="/usr/local/share/sddc"; export SDCC_PATH;`
+
+   ```bash
+   CONTIKI_PATH="<ABSOLUTE_CONTIKI_PATH>"; export CONTIKI_PATH;
+   SDCC_PATH="<ABSOLUTE_SDCC_PATH>"; export SDCC_PATH;
+   ```
+
+7. Logoff and Login again
+
+8. Open up a Terminal and enter 
 
    ```bash
    git clone https://github.com/BlkPingu/zigPAN
@@ -42,15 +54,144 @@ You need the following Soft- and Hardware in order to use this project.
    make
    ```
 
-   
-
-   After finishing the  `make` command you should have an .hex file in the ./src folder that you can move to your shared folder and then flash onto the CC2531 Chip.
+   After finishing the `make` command you should have an .hex file in the ./src folder that you can move to your shared folder and then flash onto the CC2531 Chip.
 
    
 
-## Flashing the .hex file on the CC2531
+## Building the 8051 SDCC Toolchain manually
 
-**[TODO]**
+This guide lists the packages required before you can build/use Contiki's 8051-based ports.
+
+Information on this page has been tested on Ubuntu and on Mac OS X. Things should work on Cygwin but may require some tweaking.
+
+This guide is a clone of the [guide on GitHub](https://github.com/g-oikonomou/contiki-sensinode/wiki/Prepare-your-System guide on GitHub). In cases where you see conflicting information, this page here wins.
+
+### Required Software
+
+Make sure you have the following installed:
+
+* gcc
+* flex
+* bison
+* [Boost C++ Libraries](http://www.boost.org/ ) (package libboost-graph-dev in the ubuntu archive)
+* Python
+* [srecord](http://srecord.sourceforge.net/)
+
+### OS X specific
+
+* If you want to run border routers on Mac OS X, you will also need [TunTap](http://tuntaposx.sourceforge.net/)
+* Do yourself a favour and start by installing [homebrew](http://mxcl.github.com/homebrew/) if you don't have it.
+* You should be able to `brew install srecord`. At the time of writing, this command would result in boost getting installed as well so two birds with one stone.
+* If you want to build srecord from source, you may need to install [GNU libtool](http://www.gnu.org/software/libtool/). An easy way to do it is via homebrew.
+
+This is what happens if you try to compile srecord with the Apple libtool:
+
+```bash
+make
+libtool --mode=compile --tag=CXX g++  \
+		-g -O2 -I. -c srec_cat/arglex3.cc -o \
+		srec_cat/arglex3.lo 
+libtool: unknown option character `-' in: --mode=compile
+Usage: libtool -static [-] file [...][-filelist listfile[,dirname]] [-arch_only arch][-sacLT]
+Usage: libtool -dynamic [-] file [...][-filelist listfile[,dirname]] [-arch_only arch][-o output]
+[-install_name name][-compatibility_version #] [-current_version #][-seg1addr 0x#] [-segs_read_only_addr 0x#]
+[-segs_read_write_addr 0x#][-seg_addr_table ] [-seg_addr_table_filename <file_system_path>]
+[-all_load][-noall_load]
+make: *** [srec_cat/arglex3.lo] Error 1
+```
+
+Try this:
+
+```bash
+libtool -V
+Apple Inc. version cctools-822
+```
+
+If you install GNU libtool via homebrew, it will be prefixed with a 'g':
+
+```bash
+glibtool --version
+libtool (GNU libtool) 2.4.2
+Written by Gordon Matzigkeit gord@gnu.ai.mit.edu, 1996
+
+Copyright (C) 2011 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+```
+
+Change srecord's build system to use glibtool instead of libtool and you are sorted.
+
+* Homebrew is also an easy way to install libboost
+
+  ```bash
+  brew install boost
+  ```
+
+  
+
+### Build your Toolchain (SDCC)
+
+In order to compile contiki, you need a version of the SDCC compiler. Unfortunately, the binary packages don't contain all the libraries we need so you will have to compile SDCC from sources.
+
+Before anything else, make sure you don't have a pre-installed version from the Ubuntu archive!
+
+SDCC supports various device types. You can compile it with support for all of them or only some. The port of interest to us is the mcs51. Disabling all other ports will make the compile considerably faster.
+
+`Recent Tested SDCC revisions: 9092`
+
+* Download a recommended revision from the SDCC svn (replace [rev] with one of the numbers above):
+
+```bash
+svn co -r [rev] svn://svn.code.sf.net/p/sdcc/code/trunk/sdcc
+```
+
+SDCC revisions between 7102 and 8719 suffer from a [bug](http://sourceforge.net/p/sdcc/bugs/1986/) and can't build banked firmware. Make sure you are not using one of those revisions. If you are getting the error below, this is most probably the cause and you need to rebuild SDCC:
+
+```bash
+srec_cat -disable_sequence_warnings border-router.banked-hex -intel -crop 0x18000 0x1FFFF -offset -65536 -o bank1.hex -intel
+srec_cat -disable_sequence_warnings border-router.banked-hex -intel -crop 0x28000 0x2FFFF -offset -98304 -o bank2.hex -intel
+srec_cat -disable_sequence_warnings border-router.banked-hex -intel -crop 0x38000 0x3FFFF -offset -131072 -o bank3.hex -intel
+srec_cat -disable_sequence_warnings border-router.banked-hex -intel -crop 0x48000 0x4FFFF -offset -163840 -o bank4.hex -intel
+srec_cat -disable_sequence_warnings border-router.banked-hex -intel -crop 0x00000 0x07FFF -o home.ihx -intel
+srec_cat home.ihx -intel bank1.hex -intel bank2.hex -intel bank3.hex -intel bank4.hex -intel -o border-router.hex -intel
+srec_cat: bank1.hex: 1: file contains no data
+make: *** [border-router.hex] Error 1
+rm border-router.flags border-router.banked-hex 
+obj_cc2530dk/border-router.app.rel
+```
+
+* cd into the extracted directory. This will be called `sdcc`
+
+* Now you need to hack sdcc's build system a bit, in order to get correct library versions.
+
+  - Edit `device/lib/incl.mk`. We need model-huge and model-large libraries. To instruct the build system to build model-huge libraries, find this line:
+    `MODELS = small medium large`
+    Add `huge`. You may remove `small` and `medium` if you only use SDCC for contiki, but make sure you keep `large`. So your new line may end up looking like this
+    `MODELS = small large huge`
+
+  - Edit `device/lib/Makefile.in`. Find this line:
+    `TARGETS        += models small-mcs51-stack-auto`
+    Replace it with this
+    `TARGETS        += models model-mcs51-stack-auto`
+
+* Run this:
+
+  ```bash
+  ./configure --disable-gbz80-port --disable-z80-port --disable-ds390-port --disable-ds400-port --disable-pic14-port --disable-pic16-port --disable-hc08-port --disable-r2k-port --disable-z180-port --disable-sdcdb --disable-ucsim
+  ```
+
+  - If you don't have root access you will probably want to change the installation directory. You can do that with the `--prefix=dir` option of the `./configure` stage.
+  - If you get any errors about missing packages, fix them.
+
+* `make`
+
+* `make install` as root or with sudo
+
+You now have a working compiler and libraries. The SDCC executable might be outside the PATH, depending where you installed it. Try running `sdcc -v` and see if it's in the PATH. If not, add it. If SDCC is in the PATH and you have compiled excluding unused ports, `sdcc -v` will show you something like this:
+
+`SDCC : mcs51 3.4.1 #9092 (Oct 22 2014) (Mac OS X x86_64)`
+
+The list of supported ports appears after the : and before the version number. If you build everything this message will be a lot longer.
 
 
 
