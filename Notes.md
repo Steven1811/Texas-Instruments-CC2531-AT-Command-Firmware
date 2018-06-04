@@ -16,3 +16,5 @@
 4. [Registerdefinitions for CC253x used on Contiki](http://contiki.sourceforge.net/docs/2.6/a00693_source.html)
 5. [CC253x User's Guide](http://www.ti.com/lit/ug/swru191f/swru191f.pdf)
 
+#### Location src folder:
+{contiki-folder}/examples/cc2530dk/src
