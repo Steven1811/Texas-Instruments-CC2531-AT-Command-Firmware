@@ -1,16 +1,12 @@
 CONTIKI_PROJECT = cc2531-6lowpan-at-terminal
 PROJECTDIRS += at at/executors
 PROJECT_SOURCEFILES += at.c help.c reset.c test.c
-DEFINES+=MODELS_CONF_CC2531_USB_STICK=1 #AT_DEBUG
-HAVE_BANKING=1
-#NETSTACK_CONF_RADIO=cc2530_rf_driver
-#NETSTACK_CONF_FRAMER=framer_802154
-#NETSTACK_CONF_NETWORK=sicslowpan_driver
-#NETSTACK_CONF_MAC=csma_driver
-#NETSTACK_CONF_RDC=nullrdc_driver
-UIP_CONF_IPV6=1
-#UIP_CONF_RPL=1
-#DEBUG=1
+DEFINES+=	MODELS_CONF_CC2531_USB_STICK=1\
+			AT_DEBUG\ #Used for debugging the AT Driver
+			IEEE802154_CONF_PANID=0xDEAD\ #Set's the 16 bit PAN_ID
+			CC2530_RF_CONF_CHANNEL=25\ #Set's the RF Channel
+			NETSTACK_CONF_WITH_IPV6=1\ #Set's the Netstack to use the IPv6 driver
+			CC2531_CONF_B2_REBOOTS=1 #Reboot when B2 is pressed
 all: $(CONTIKI_PROJECT)
 
 CONTIKI =${CONTIKI_PATH}

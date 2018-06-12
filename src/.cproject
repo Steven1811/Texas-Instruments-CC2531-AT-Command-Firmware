@@ -25,7 +25,8 @@
 							</builder>
 							<tool id="org.eclipse.cdt.build.core.settings.holder.libs.1195013986" name="holder for library settings" superClass="org.eclipse.cdt.build.core.settings.holder.libs"/>
 							<tool id="org.eclipse.cdt.build.core.settings.holder.1870949263" name="Assembly" superClass="org.eclipse.cdt.build.core.settings.holder">
-								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.1083721850" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols"/>
+								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.1083721850" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols"/>
+								<option id="org.eclipse.cdt.build.core.settings.holder.incpaths.1060602575" name="Include Paths" superClass="org.eclipse.cdt.build.core.settings.holder.incpaths" valueType="includePath"/>
 								<inputType id="org.eclipse.cdt.build.core.settings.holder.inType.1160432783" languageId="org.eclipse.cdt.core.assembly" languageName="Assembly" sourceContentType="org.eclipse.cdt.core.asmSource" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
 							</tool>
 							<tool id="org.eclipse.cdt.build.core.settings.holder.247176761" name="GNU C++" superClass="org.eclipse.cdt.build.core.settings.holder">

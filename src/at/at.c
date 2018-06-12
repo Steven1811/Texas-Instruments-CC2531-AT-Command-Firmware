@@ -7,12 +7,10 @@
 
 #include <stdint.h>
 #include <string.h>
-#include <stdarg.h>
 #include <stdlib.h>
 #include <stdbool.h>
 
 #include "debug.h"
-#include "dev/watchdog.h"
 #include "executors/executors.h"
 #include "at.h"
 
@@ -38,7 +36,7 @@ at_command commands[]= {
 		},
 		{
 			"HELP",
-			"Prints out the help",
+			"Prints out this help",
 			&help_exec
 		},
 		{
@@ -96,19 +94,6 @@ void parse_at(char* string) {
 
 		//Is AT+?
 		if(command_name!=NULL) {
-			#ifdef AT_DEBUG
-			putstring("Command: ");
-			putline(command_name);
-			putstring("Params:\n");
-
-			i=0;
-			while(parameters[i]!=NULL) {
-				putdec(i);
-				putstring(": ");
-				putline(parameters[i]);
-				i++;
-			}
-			#endif
 
 			//Check through the AT_Command registry
 			at_command_struc = fetch_command(command_name);

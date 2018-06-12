@@ -18,3 +18,24 @@
 6. [How to build the 8051 SDCC Toolchain manually](https://github.com/contiki-os/contiki/wiki/8051-Requirements)
 7. [Contiki Network Stack](https://anrg.usc.edu/contiki/index.php/Network_Stack)
 8. [Contiki RPL UDP](http://anrg.usc.edu/contiki/index.php/RPL_UDP)
+
+#### Important files to look into (Contiki OS 3.0)
+
+**Main configuration**
+
+- core/contiki-default-conf.h - Default configuration that get's loaded in Contiki
+- platform/cc2530dk/contiki-conf.h - Platform specific configuration that get's loaded in Contiki
+
+**Networking**
+
+- core/net/netstack.h - The networking stack interface of Contiki
+- core/net/dev/radio.h - Low-level driver for the platform
+- core/net/ip/uip.h - Basic IP communication in Contiki
+
+**USB Communication**
+
+- platform/cc2530dk/usb-serial.h - The serial USB Driver for the platform
+
+**Platform-specific**
+
+- platform/cc2530dk/contiki-main.c - Initialization routines for the platform (Setting up drivers, etc.)
