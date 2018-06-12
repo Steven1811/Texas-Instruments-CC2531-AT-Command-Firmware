@@ -29,8 +29,9 @@
 **Networking**
 
 - core/net/netstack.h - The networking stack interface of Contiki
-- core/net/dev/radio.h - Low-level driver for the platform
+- core/net/dev/radio.h - Low-level radio interface for Contiki
 - core/net/ip/uip.h - Basic IP communication in Contiki
+- cpu/cc253x/dev/cc2530-rf.h - Low-level radio driver for the platform
 
 **USB Communication**
 
