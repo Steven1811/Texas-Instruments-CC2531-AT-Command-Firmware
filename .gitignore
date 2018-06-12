@@ -60,3 +60,5 @@ dkms.conf
 *.cc2530dk
 *.lk
 *.mem
+*.directory
+*.banks

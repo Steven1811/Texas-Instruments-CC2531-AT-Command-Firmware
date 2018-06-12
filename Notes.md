@@ -2,7 +2,7 @@
 
 
 
-##### Using Contiki OS for development (We're using 2.7)
+##### Using Contiki OS for development (We're using version 3.0, since 2.6 doesn't have compatibility for the CC2531 USB drivers and 2.7 has a bug that crashes the controller when utilizing IPv6)
 
 1. Get the [latest Contiki Image](https://sourceforge.net/projects/contiki/files/Instant%20Contiki/)
 2. [Get Started](http://contiki-os.org/start.html)
@@ -16,3 +16,5 @@
 4. [Registerdefinitions for CC253x used on Contiki](http://contiki.sourceforge.net/docs/2.6/a00693_source.html)
 5. [CC253x User's Guide](http://www.ti.com/lit/ug/swru191f/swru191f.pdf)
 6. [How to build the 8051 SDCC Toolchain manually](https://github.com/contiki-os/contiki/wiki/8051-Requirements)
+7. [Contiki Network Stack](https://anrg.usc.edu/contiki/index.php/Network_Stack)
+8. [Contiki RPL UDP](http://anrg.usc.edu/contiki/index.php/RPL_UDP)

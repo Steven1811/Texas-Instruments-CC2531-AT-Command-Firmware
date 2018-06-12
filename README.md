@@ -71,10 +71,11 @@ This guide is a clone of the [guide on GitHub](https://github.com/g-oikonomou/co
 Make sure you have the following installed:
 
 * gcc
+* g++
 * flex
 * bison
 * [Boost C++ Libraries](http://www.boost.org/ ) (package libboost-graph-dev in the ubuntu archive)
-* Python
+* Python**2** (Note: Python3 will not work with banked builds)
 * [srecord](http://srecord.sourceforge.net/)
 
 ### OS X specific
@@ -177,7 +178,7 @@ obj_cc2530dk/border-router.app.rel
 * Run this:
 
   ```bash
-  ./configure --disable-gbz80-port --disable-z80-port --disable-ds390-port --disable-ds400-port --disable-pic14-port --disable-pic16-port --disable-hc08-port --disable-r2k-port --disable-z180-port --disable-sdcdb --disable-ucsim
+  ./configure --disable-werror --disable-gbz80-port --disable-z80-port --disable-ds390-port --disable-ds400-port --disable-pic14-port --disable-pic16-port --disable-hc08-port --disable-r2k-port --disable-z180-port --disable-sdcdb --disable-ucsim
   ```
 
   - If you don't have root access you will probably want to change the installation directory. You can do that with the `--prefix=dir` option of the `./configure` stage.
