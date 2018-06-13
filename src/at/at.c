@@ -14,7 +14,7 @@
 #include "executors/executors.h"
 #include "at.h"
 
-
+uint8_t op_mode= 0;
 char* AT_DELIMITER = "+ ";
 char* AT_OK = "OK";
 char* AT_FAIL = "FAIL";
@@ -33,6 +33,17 @@ at_command commands[]= {
 			"RST",
 			"Resets the device",
 			&reset_exec
+		},
+		{
+			"RSSI",
+			"Returns the current Radio signal strength indicator (RSSI)",
+			&rssi_exec
+
+		},
+		{
+			"TXPWR",
+			"[POWER(-28 TO 5)]Returns or sets the TXPower",
+			&txpwr_exec
 		},
 		{
 			"HELP",

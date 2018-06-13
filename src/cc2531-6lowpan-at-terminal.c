@@ -14,8 +14,9 @@
 #include "contiki.h"
 #include "dev/leds.h"
 #include "debug.h"
-
+#include "net/netstack.h"
 #include "at/at.h"
+#include "dev/radio.h"
 
 /*---------------------------------------------------------------------------*/
 static struct etimer et;
@@ -26,10 +27,15 @@ extern process_event_t serial_line_event_message;
 /*---------------------------------------------------------------------------*/
 PROCESS_THREAD(cc2531_6lowpan_at_terminal_process, ev, data) {
 	PROCESS_BEGIN();
-	etimer_set(&et, CLOCK_SECOND/2);
+
+	if(NETSTACK_RADIO.set_value(RADIO_PARAM_POWER_MODE, RADIO_POWER_MODE_OFF)==RADIO_RESULT_OK) {
+		putline("Radio off!");
+	}
+
+	etimer_set(&et, CLOCK_SECOND/4);
+
 	while (1) {
 		PROCESS_WAIT_EVENT();
-
 		if (ev == PROCESS_EVENT_TIMER) {
 			leds_blink();
 			etimer_reset(&et);

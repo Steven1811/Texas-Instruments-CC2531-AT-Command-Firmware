@@ -1,6 +1,6 @@
 CONTIKI_PROJECT = cc2531-6lowpan-at-terminal
 PROJECTDIRS += at at/executors
-PROJECT_SOURCEFILES += at.c help.c reset.c test.c
+PROJECT_SOURCEFILES += at.c help.c reset.c test.c rssi.c txpwr.c
 DEFINES+=	MODELS_CONF_CC2531_USB_STICK=1\
 			AT_DEBUG\ #Used for debugging the AT Driver
 			IEEE802154_CONF_PANID=0xDEAD\ #Set's the 16 bit PAN_ID

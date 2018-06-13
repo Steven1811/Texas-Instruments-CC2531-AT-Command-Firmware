@@ -11,14 +11,13 @@
 #include "executors.h"
 #include "../at.h"
 #include "debug.h"
-
+#include "net/netstack.h"
 bool help_exec(char ** parameters) {
 	uint8_t i=0;
 	at_command* commands;
 
 	putline("AT command help:");
 	commands=get_commands();
-
 
 	while(commands[i].cmd_name!=NULL) {
 		putchar('\t');

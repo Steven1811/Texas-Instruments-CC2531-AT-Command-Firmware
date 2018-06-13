@@ -13,4 +13,6 @@
 bool help_exec(char ** parameters);
 bool reset_exec(char ** parameters);
 bool test_exec(char ** parameters);
+bool rssi_exec(char ** parameters);
+bool txpwr_exec(char ** parameters);
 #endif /* AT_EXECUTORS_EXECUTORS_H_ */
