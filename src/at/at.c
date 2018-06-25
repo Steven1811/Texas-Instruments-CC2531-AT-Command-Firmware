@@ -25,7 +25,7 @@ at_command commands[]= {
 		#ifdef AT_DEBUG
 		{
 			"TEST",
-			"Is test",
+			"Paramter test",
 			&test_exec
 		},
 		#endif
@@ -44,6 +44,21 @@ at_command commands[]= {
 			"TXPWR",
 			"[POWER(-28 TO 5)]Returns or sets the TXPower",
 			&txpwr_exec
+		},
+		{
+			"PID",
+			"[PID(0-65535)] Returns or sets the PAN_ID",
+			&pid_exec
+		},
+		{
+			"CH",
+			"[CHANNEL(11-26)] Returns or sets the Channel",
+			&ch_exec
+		},
+		{
+			"SEND",
+			"NOT SET YET",
+			&send_exec
 		},
 		{
 			"HELP",

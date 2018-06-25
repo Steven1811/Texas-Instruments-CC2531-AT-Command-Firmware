@@ -46,7 +46,7 @@ bool txpwr_exec(char ** parameters) {
 		txpower = atoi(parameters[0]);
 		if (NETSTACK_RADIO.set_value(RADIO_PARAM_TXPOWER, txpower)
 				== RADIO_RESULT_OK) {
-			printf("Set TXPOWER to: %X\n", txpower);
+			printf("Set TXPOWER to: %d\n", txpower);
 			return true;
 		}
 	}
