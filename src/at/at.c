@@ -9,16 +9,22 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <stdio.h>
 
+#include "contiki.h"
 #include "debug.h"
 #include "executors/executors.h"
 #include "at.h"
 
 uint8_t op_mode= 0;
 char* AT_DELIMITER = "+ ";
-char* AT_OK = "OK";
-char* AT_FAIL = "FAIL";
+char* AT_OK = "OK\n";
+char* AT_FAIL = "FAI\nL";
 char* AT = "AT";
+
+PROCESS(at_process, "at_process");
+extern process_event_t serial_line_event_message;
+process_event_t serial_non_at_event_message;
 
 //AT Command registry
 at_command commands[]= {
@@ -57,8 +63,13 @@ at_command commands[]= {
 		},
 		{
 			"SEND",
-			"NOT SET YET",
+			"Sends UDP packet data to an IPv6 address",
 			&send_exec
+		},
+		{
+			"LOCIP",
+			"Shows you the current local unicast IP",
+			&locip_exec
 		},
 		{
 			"HELP",
@@ -103,7 +114,7 @@ void fetch_parameters(char *token, char** parameters) {
 	parameters[param_count]=NULL;
 }
 
-void parse_at(char* string) {
+bool parse_at(char* string) {
 	char *command_name=NULL;
 	char *parameters[MAX_PARAM_COUNT];
 	uint8_t i=0;
@@ -125,22 +136,39 @@ void parse_at(char* string) {
 			at_command_struc = fetch_command(command_name);
 			if(at_command_struc!=NULL) {
 				if(at_command_struc->executor(parameters)) {
-					putline(AT_OK);
+					printf(AT_OK);
 				}
 				else{
-					putline(AT_FAIL);
+					printf(AT_FAIL);
 				}
-				return;
+				return true;
 			}
 
 			//Not a valid AT Command
-			putchar('"');
-			putstring(command_name);
-			putline("\" is not a valid AT Command.");
+			printf("\"%s\" is not a valid AT-Command", command_name);
+			return true;
 		}
 		else{
 			//AT only is a test command
-			putline(AT_OK);
+			printf(AT_OK);
+			return true;
 		}
 	}
+	return false;
+}
+
+//Main AT Command process
+PROCESS_THREAD(at_process, ev, data) {
+	PROCESS_BEGIN();
+	serial_non_at_event_message = process_alloc_event(); //Allocate new global event to the process manager
+	while (1) {
+		PROCESS_WAIT_EVENT();
+		if (ev == serial_line_event_message) {
+			if(!(parse_at((char *) data))) {
+				//Pass through serial_line_event_message if non-at-command was received via serial_non_at_event_message
+				process_post(PROCESS_BROADCAST, serial_non_at_event_message, data);
+			}
+		}
+	}
+	PROCESS_END();
 }

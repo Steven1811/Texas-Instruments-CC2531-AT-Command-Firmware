@@ -18,11 +18,9 @@
 #include "net/ipv6/uip-ds6.h"
 #include <contiki-net.h>
 
+bool udp_connection_active=false;
 struct simple_udp_connection udp_connection;
 uip_ip6addr_t target_ip;
-uip_ip6addr_t local_ip;
-uip_ip6addr_t addr;
-uip_ds6_addr_t *local_ip_addr;
 
 uint16_t convertHexStrToWord(char* string) {
 	uint16_t retval=0;
@@ -78,33 +76,36 @@ bool send_exec (char ** parameters) {
 	uint16_t localPort=atoi(parameters[1]);
 	uint16_t destPort=atoi(parameters[2]);
 	parseIPv6String(parameters[0]);
-	#ifdef AT_DEBUG
-		//Add Unicast IP
-		uip_ip6addr(&addr, 0x1111,0x2222,0x3333,0x4444,0x5555,0x6666,0x7777,0x8888);
-		uip_ds6_addr_add(&addr, 0, ADDR_MANUAL);
 
-		//Retrieve Local Unicast Link
-		local_ip_addr = uip_ds6_get_link_local(ADDR_PREFERRED);
-		printf("Local IP: ");
-		uip_debug_ipaddr_print(&local_ip_addr->ipaddr);
-		putchar('\n');
-	#endif
-	if(simple_udp_register(&udp_connection, localPort, NULL , destPort, &udp_callback)) {
-		#ifdef AT_DEBUG
-			printf("UDP_Register OK!\n");
-		#endif
-			simple_udp_sendto(&udp_connection, parameters[3], strlen(parameters[3]) + 1, &target_ip);
-		#ifdef AT_DEBUG
-			printf("Sent \"%s\" with size %zu to ", parameters[3], strlen(parameters[3]) + 1);
-			uip_debug_ipaddr_print(&target_ip);
-			printf(" to Port %hu from Port %hu\n", localPort, destPort);
-		#endif
-		return true;
+	//Register new connection if first called
+	if(!udp_connection_active) {
+		if(simple_udp_register(&udp_connection, localPort, NULL , destPort, &udp_callback)) {
+			//Register success
+			#ifdef AT_DEBUG
+				printf("UDP_Register OK!\n");
+			#endif
+				udp_connection_active=true;
+		}
+		else{
+			//On Register fail
+			#ifdef AT_DEBUG
+				printf("UDP_Register Fail!\n");
+			#endif
+			return false;
+		}
 	}
+#ifdef AT_DEBUG
 	else{
-		#ifdef AT_DEBUG
-			printf("UDP_Register Fail!\n");
-		#endif
+		printf("UDP_Connection already set up and ready for transfer.\n");
 	}
-	return false;
+#endif
+
+	//Send data
+	simple_udp_sendto(&udp_connection, parameters[3], strlen(parameters[3]) + 1, &target_ip);
+	#ifdef AT_DEBUG
+		printf("Sent \"%s\" with size %zu to ", parameters[3], strlen(parameters[3]) + 1);
+		uip_debug_ipaddr_print(&target_ip);
+		printf(" to Port %hu from Port %hu\n", localPort, destPort);
+	#endif
+	return true;
 }

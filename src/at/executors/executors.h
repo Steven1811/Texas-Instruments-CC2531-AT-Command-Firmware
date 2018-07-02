@@ -18,5 +18,6 @@ bool txpwr_exec(char ** parameters);
 bool pid_exec (char ** parameters);
 bool ch_exec (char ** parameters);
 bool send_exec (char ** parameters);
+bool locip_exec (char ** parameters);
 
 #endif /* AT_EXECUTORS_EXECUTORS_H_ */

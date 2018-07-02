@@ -6,31 +6,24 @@
  *         Tobias Kolb
  *         Steven Bradley
  */
+//Process for doing something. In this case blinking LEDs and outputting non-at-commands.
+//The main AT_Process is happening via at/at_process.c
 
-#include <stdint.h>
-#include <string.h>
-#include <stdlib.h>
+#include <stdio.h>
 
 #include "contiki.h"
 #include "dev/leds.h"
 #include "debug.h"
-#include "net/netstack.h"
 #include "at/at.h"
-#include "dev/radio.h"
 
-/*---------------------------------------------------------------------------*/
 static struct etimer et;
-/*---------------------------------------------------------------------------*/
+extern process_event_t serial_non_at_event_message;
+
 PROCESS(cc2531_6lowpan_at_terminal_process, "cc2531 AT Terminal");
-AUTOSTART_PROCESSES(&cc2531_6lowpan_at_terminal_process); // @suppress("Unused variable declaration in file scope")
-extern process_event_t serial_line_event_message;
-/*---------------------------------------------------------------------------*/
+AUTOSTART_PROCESSES(&cc2531_6lowpan_at_terminal_process, &at_process); // @suppress("Unused variable declaration in file scope")
+
 PROCESS_THREAD(cc2531_6lowpan_at_terminal_process, ev, data) {
 	PROCESS_BEGIN();
-
-	if(NETSTACK_RADIO.set_value(RADIO_PARAM_POWER_MODE, RADIO_POWER_MODE_OFF)==RADIO_RESULT_OK) {
-		putline("Radio off!");
-	}
 
 	etimer_set(&et, CLOCK_SECOND/4);
 
@@ -39,8 +32,8 @@ PROCESS_THREAD(cc2531_6lowpan_at_terminal_process, ev, data) {
 		if (ev == PROCESS_EVENT_TIMER) {
 			leds_blink();
 			etimer_reset(&et);
-		} else if (ev == serial_line_event_message) {
-			parse_at((char *) data);
+		} else if (ev == serial_non_at_event_message) {
+			printf("Received non AT-Command: %s\n", data);
 		}
 	}
 	PROCESS_END();

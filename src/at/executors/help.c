@@ -7,6 +7,7 @@
 
 #include <stdbool.h>
 #include <string.h>
+#include <stdio.h>
 
 #include "executors.h"
 #include "../at.h"
@@ -16,16 +17,11 @@ bool help_exec(char ** parameters) {
 	uint8_t i=0;
 	at_command* commands;
 
-	putline("AT command help:");
+	printf("AT command help:\n");
 	commands=get_commands();
 
 	while(commands[i].cmd_name!=NULL) {
-		putchar('\t');
-		putstring(AT);
-		putchar('+');
-		putstring(commands[i].cmd_name);
-		putstring(": ");
-		putline(commands[i].description)
+		printf("%s+%s: %s \n", AT, commands[i].cmd_name, commands[i].description);
 		i++;
 	}
 	return true;

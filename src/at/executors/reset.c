@@ -7,6 +7,7 @@
 
 #include <stdbool.h>
 #include <string.h>
+#include <stdio.h>
 
 #include "../at.h"
 #include "debug.h"
@@ -14,7 +15,7 @@
 #include "dev/watchdog.h"
 
 bool reset_exec(char ** parameters) {
-	putline(AT_OK);
+	printf(AT_OK);
 	watchdog_reboot();
 	return true; //Never reached anyway
 }

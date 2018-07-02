@@ -8,7 +8,6 @@
 #include "dev/radio.h"
 
 bool rssi_exec(char ** parameters) {
-	radio_result_t result;
 	radio_value_t val;
 	if(NETSTACK_RADIO.get_value(RADIO_PARAM_POWER_MODE, &val)==RADIO_RESULT_OK) {
 		if(val==RADIO_POWER_MODE_ON) {
