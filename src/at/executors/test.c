@@ -8,6 +8,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <string.h>
+#include <stdio.h>
 
 #include "../at.h"
 #include "debug.h"
@@ -19,7 +20,7 @@ bool test_exec(char ** parameters) {
 	while(parameters[i]!=NULL) {
 		putdec(i);
 		putstring(": ");
-		putline(parameters[i]);
+		printf(parameters[i]);
 		i++;
 	}
 	return true;
