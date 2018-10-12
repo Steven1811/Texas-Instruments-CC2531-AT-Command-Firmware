@@ -25,14 +25,9 @@ AUTOSTART_PROCESSES(&cc2531_6lowpan_at_terminal_process, &at_process); // @suppr
 PROCESS_THREAD(cc2531_6lowpan_at_terminal_process, ev, data) {
 	PROCESS_BEGIN();
 
-	etimer_set(&et, CLOCK_SECOND/4);
-
 	while (1) {
 		PROCESS_WAIT_EVENT();
-		if (ev == PROCESS_EVENT_TIMER) {
-			leds_blink();
-			etimer_reset(&et);
-		} else if (ev == serial_non_at_event_message) {
+		if (ev == serial_non_at_event_message) {
 			printf("Received non AT-Command: %s\n", data);
 		}
 	}

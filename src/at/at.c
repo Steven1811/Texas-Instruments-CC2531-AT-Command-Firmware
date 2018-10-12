@@ -72,6 +72,16 @@ at_command commands[]= {
 			&locip_exec
 		},
 		{
+			"LISTEN",
+			"Listens to inbound connections",
+			&listen_exec
+		},
+		{
+			"LED",
+			"Toggles the LED",
+			&led_exec
+		},
+		{
 			"HELP",
 			"Prints out this help",
 			&help_exec
